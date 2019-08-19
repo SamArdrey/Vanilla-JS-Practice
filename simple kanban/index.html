@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Kanban</title>
+  <style>
+    .lists {
+      display: flex;
+      flex-direction: row;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      background-color: aqua;
+      width: 33%;
+      height: 600px;
+      border: 1px solid black;
+    }
+
+    #todo {
+      background-color: orange;
+    }
+
+    #doing{
+      background-color: silver;
+    }
+
+    #done {
+
+    }
+
+    #add-todo {
+      color: blue
+    }
+
+    .todo-text {
+
+    }
+
+    paragraph {
+      background-color: pink;
+      height: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <label>
+    Add Todo
+    <input class="todo-text" type="text">
+    <button class="add-todo" id="add-todo">Add Todo</button>
+  </label>
+  <label class="lists">
+    <div class="todo" id="todo">todo</div>
+    <div class="doing" id="doing">doing</div>
+    <div class="done" id="done">done</div>
+  </label>
+
+  <script>
+    let todoText = document.querySelector(".todo-text")
+    let addTodo = document.querySelector("#add-todo")
+    let todoList = document.querySelector("#todo");
+    let doingList = document.querySelector("#doing");
+    let doneList = document.querySelector("#done");
+
+    const nextList = (e) => {
+      e.stopPropagation();
+      if (e.path[2].id === "todo") {
+        doingList.appendChild(e.path[1]);
+      } else {
+        doneList.appendChild(e.path[1])
+      }
+    }
+
+    const log = (e) => {
+      let todo = document.createElement("paragraph");
+      todo.innerText = document.querySelector(".todo-text").value
+
+      let next = document.createElement('button')
+      next.innerHTML = "next"
+      next.onClick = nextList
+
+      todo.append(next)
+
+      let doc = document.querySelector("#todo")
+      doc.appendChild(todo)
+    }
+
+    addTodo.addEventListener("click", log)
+    todoList.addEventListener("click", nextList)
+    doingList.addEventListener("click", nextList)
+  </script>
+</body>
+</html>
